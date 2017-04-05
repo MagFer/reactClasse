@@ -16,13 +16,13 @@ import {
 
 import TrendingSection from './src/Sections/TrendingSection.js';
 import NewsSection from './src/Sections/NewsSection.js';
-import SettingsSection from './src/Sections/SetingsSection.js';
+import MapSection from './src/Sections/MapSection.js';
 import _ from 'underscore';
 
 var ROUTES = {
   trendingSection: TrendingSection,
   newsSection: NewsSection,
-  settingsSection: SettingsSection,
+  mapSection: MapSection,
 }
 
 export default class testapp extends Component {
@@ -46,7 +46,7 @@ export default class testapp extends Component {
 
         <Navigator
           style={styles.wrapper}
-          initialRoute={{ name: 'newsSection' }}
+          initialRoute={{ name: 'mapSection' }}
           renderScene={this.renderScene}
         />
 

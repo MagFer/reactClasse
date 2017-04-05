@@ -26,7 +26,7 @@ export default class Footer extends Component {
     this.tabBarButtonsContent = [
         {id: 1, title: 'Trending', sectionKey: 'trendingSection'},
         {id: 2, title: 'News', sectionKey: 'newsSection'},
-        {id: 3, title: 'Settings', sectionKey: 'settingsSection'}
+        {id: 3, title: 'Map', sectionKey: 'mapSection'}
     ];
   }
 

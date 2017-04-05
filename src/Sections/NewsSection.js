@@ -5,6 +5,7 @@ import {
     ScrollView,
     Text,
     View,
+    TouchableHighlight
 } from 'react-native';
 
 import Header from '../Component/header';
@@ -18,11 +19,11 @@ export default class NewsSection extends Component {
     constructor(props) {
         super(props);
 
-
         this.filterContent = [
-            { id: 1, title: "Around you", image: require("../assets/compass.png") },
-            { id: 2, title: "Top News", image: require("../assets/star.png") },
-            { id: 3, title: "Sports News", image: require("../assets/bike.png") },
+            { id: 0, title: "All news", image: 0, categoryId: 0 },
+            { id: 1, title: "Around you", image: require("../assets/compass.png"), categoryId: 1 },
+            { id: 2, title: "Top News", image: require("../assets/star.png"), categoryId: 2 },
+            { id: 3, title: "Sports News", image: require("../assets/bike.png"), categoryId: 3 },
         ];
 
         this.filters = [];
@@ -33,12 +34,21 @@ export default class NewsSection extends Component {
         }
 
         this.newsContent = [
-            { id: 1, title: "World Happines Report", description: "18k people talking about this", categoryId: 1},
-            { id: 2, title: "Stephen Hawking", description: "120k people talking about this", categoryId: 1},
-            { id: 3, title: "Samsung", description: "1M people talking about this", categoryId: 2},
-            { id: 4, title: "Cristiano Ronaldo", description: "510k people talking about this", categoryId: 3},
-            { id: 5, title: "Xiaomi", description: "120k people talking about this", categoryId: 1},
+            { id: 1, title: "World Happines Report", description: "18k people talking about this", categoryId: 1 },
+            { id: 2, title: "Stephen Hawking", description: "120k people talking about this", categoryId: 1 },
+            { id: 3, title: "Samsung", description: "1M people talking about this", categoryId: 2 },
+            { id: 4, title: "Cristiano Ronaldo", description: "510k people talking about this", categoryId: 3 },
+            { id: 5, title: "Xiaomi", description: "120k people talking about this", categoryId: 1 },
         ];
+
+        this.newsContentFiltered = this.newsContent;
+
+        /*console.log("newsContentFiltered not do it= ", this.newsContent)
+
+        this.newsContentFiltered = _.filter(this.newsContent, function (newsContentItem) {
+            return newsContentItem.categoryId === 2;
+        })
+        console.log("newsContentFiltered do it= ", this.newsContentFiltered)
 
         this.news = [];
         for (var newNumber = 0; newNumber < this.newsContent.length; newNumber++) {
@@ -47,10 +57,27 @@ export default class NewsSection extends Component {
                 description={this.newsContent[newNumber].description} />);
         }
 
+        console.log("end constructor");*/
+
         this.state = {
-            newsContentState: this.newsContent,
+            newsContentFiltered: this.newsContentFiltered,
         }
-        console.log("end constructor");
+
+        this.filterNewsContent = this.filterNewsContent.bind(this);
+    }
+
+    filterNewsContent(categoryId) {
+        console.log("filterNewsContent Called");
+        if (categoryId == 0) {
+            this.setState({ newsContentFiltered: this.newsContent });
+        } else {
+            this.setState({
+                newsContentFiltered:
+                _.filter(this.newsContent, function (newsContentItem) {
+                    return newsContentItem.categoryId === categoryId;
+                })
+            });
+        }
 
     }
 
@@ -60,19 +87,32 @@ export default class NewsSection extends Component {
 
         return (
             <View style={styles.container}>
-                <Header title={"News"}/>
+                <Header title={"News"} />
                 <ScrollView style={styles.content}>
                     <ScrollView horizontal style={styles.scrollViewFilters}>
                         {
-                            _.map(this.filterContent, function showFilterElement(filterContentItem) {
-                                return <FilterCell key={filterContentItem.id}
-                                    title={filterContentItem.title}
-                                    img={filterContentItem.image} />
-                            })
+                            _.map(this.filterContent, (function showFilterElement(filterContentItem) {
+                                return (
+                                    <TouchableHighlight key={filterContentItem.id} onPress={
+                                        (() => {
+                                            this.filterNewsContent(filterContentItem.categoryId)
+                                        }).bind(this)
+
+                                    }>
+                                        <View>
+                                            <FilterCell key={filterContentItem.id}
+                                                title={filterContentItem.title}
+                                                img={filterContentItem.image} />
+                                        </View>
+                                    </TouchableHighlight>
+                                )
+                            }).bind(this))
                         }
                     </ScrollView>
+
                     {
-                        _.map(this.newsContent, (newContentItem) => {
+                        _.map(this.state.newsContentFiltered, (newContentItem) => {
+
                             return <NewCell key={newContentItem.id}
                                 title={newContentItem.title}
                                 description={newContentItem.description} />
