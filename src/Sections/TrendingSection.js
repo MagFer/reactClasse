@@ -9,10 +9,10 @@ import {
   Dimensions
 } from 'react-native';
 
-import Header from '../Component/header';
-import Tabbar from '../Component/tabbar';
-import NewCell from '../Cell/newCell';
-import FilterCell from '../Cell/filterCell';
+import Header from '../Component/Header';
+import Tabbar from '../Component/TabBar';
+import NewCell from '../Cell/NewCell';
+import FilterCell from '../Cell/FilterCell';
 import _ from 'underscore';
 
 export default class TrendingSection extends Component {
